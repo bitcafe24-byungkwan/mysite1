@@ -3,6 +3,7 @@ package com.cafe24.mysite.controller;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,8 +14,18 @@ import com.cafe24.web.mvc.Action;
 /**
  * Servlet implementation class MainSevlet
  */
+
+//@WebServlet({"","/main","/index"})
 public class MainServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	@Override
+	public void init() throws ServletException {
+		String configPath = 
+			getServletConfig().getInitParameter("config");
+		System.out.println("init() called: " + configPath);
+
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
