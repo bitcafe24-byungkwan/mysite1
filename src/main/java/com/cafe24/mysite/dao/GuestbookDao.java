@@ -107,7 +107,7 @@ public class GuestbookDao {
 			conn = getConnection();
 
 			String sql = "insert into guestbook\r\n" + 
-					" values(null,?,?,?,now())";
+					" values(default,?,?,?,now())";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, vo.getName());
@@ -146,7 +146,7 @@ public class GuestbookDao {
 
 			conn = getConnection();
 
-			String sql = " select no, name, contents, date_format(reg_date, '%Y-%m-%d %H:%i:%s') from guestbook\r\n" + 
+			String sql = " select no, name, contents, to_char(reg_date, 'yyyy-mm-dd') from guestbook\r\n" + 
 					" order by reg_date desc";
 			pstmt = conn.prepareStatement(sql);
 			
@@ -189,14 +189,14 @@ public class GuestbookDao {
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;
 		try {
-			Class.forName("org.mariadb.jdbc.Driver");
+			Class.forName("org.postgresql.Driver");
 			String sysEnvStr = System.getProperty("os.name");
 			
 			String url;
 			if(sysEnvStr.contains("Windows"))
-				url = "jdbc:mariadb://lx01:3307/webdb";
+				url = "jdbc:postgresql://lx01:5432/webdb";
 			else 
-				url = "jdbc:mariadb://localhost:3307/webdb";
+				url = "jdbc:postgresql://localhost:5432/webdb";
 			
 			conn = DriverManager.getConnection(url, "webdb", "webdb");
 

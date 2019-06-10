@@ -23,10 +23,10 @@ public class UserDao {
 				tempQuery += String.format(",password = '%s' ", vo.getPassword());
 			conn = getConnection();
 
-			String sql = "update user \r\n" + 
+			String sql = "update public.member \r\n" + 
 					" set gender = ? \r\n" +
 					 tempQuery +
-					" where no= ? ";
+					" where no= ?";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, vo.getGender());
@@ -69,7 +69,7 @@ public class UserDao {
 
 			conn = getConnection();
 
-			String sql = "select name,email,gender from user where no=?";
+			String sql = "select name,email,gender from public.member where no=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setLong(1, no);			
 			rs = pstmt.executeQuery();
@@ -115,7 +115,7 @@ public class UserDao {
 
 			conn = getConnection();
 
-			String sql = "select no, name from user where email=? and password=?";
+			String sql = "select no, name from public.member where email=? and password=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, email);
 			pstmt.setString(2, password);
@@ -160,8 +160,8 @@ public class UserDao {
 
 			conn = getConnection();
 
-			String sql = "insert into user\r\n" + 
-					" values(null,?,?,?,?,now())";
+			String sql = "insert into public.member\r\n" + 
+					" values(default,?,?,?,?,now())";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, vo.getName());
@@ -194,14 +194,14 @@ public class UserDao {
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;
 		try {
-			Class.forName("org.mariadb.jdbc.Driver");
+			Class.forName("org.postgresql.Driver");
 			String sysEnvStr = System.getProperty("os.name");
 			
 			String url;
 			if(sysEnvStr.contains("Windows"))
-				url = "jdbc:mariadb://lx01:3307/webdb";
+				url = "jdbc:postgresql://lx01:5432/webdb";
 			else 
-				url = "jdbc:mariadb://localhost:3307/webdb";
+				url = "jdbc:postgresql://localhost:5432/webdb";
 			conn = DriverManager.getConnection(url, "webdb", "webdb");
 
 		} catch (ClassNotFoundException e) {

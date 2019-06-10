@@ -28,7 +28,7 @@ public class JoinAction implements Action {
 		
 		new UserDao().insert(vo);
 		
-		WebUtil.forward(request, response, request.getContextPath()+"/user?a=joinsuccess");
+		WebUtil.redirect(request, response, request.getContextPath()+"/user?a=joinsuccess");
 		
 	}
 
